@@ -7,7 +7,7 @@ def normalize(word):
 
 def get_counts(document):
     count = 0
-    word = {}
+    stored_words = {}
     every_word = []
     input_file = open(document)
 
@@ -23,22 +23,21 @@ def get_counts(document):
 #This loop, adds everything into a dictionary with the amount of that word repeated. It also counts the amount of words
 
 
-    for i in every_word:
-        i = normalize(i)
-        if i == "":
-            continue
-        else:
-            if i in word:
-                word[i] = word[i] + 1
+    for word in every_word:
+        word = normalize(word)
+        if word != "":
+            
+            if word in stored_words:
+                stored_words[word] = stored_words[word] + 1
                 count = count + 1
             else:
-                word[i] = 1
+                stored_words[word] = 1
                 count = count +1
             
 
-    word["_total"] = count
+    stored_words["_total"] = count
 
-    return word
+    return stored_words
 
     input_file.close()
 
@@ -65,13 +64,10 @@ def adding_scores(text, author, dictionary):
 
     author = 0
 
-    for i in text:
-        if i == "":
-            continue
-        
-        else:
-            i = normalize(i)
-            author = author + get_score(i, dictionary)
+    for word in text:
+        if word != "":
+            word = normalize(word)
+            author = author + get_score(word, dictionary)
             
     return author
 
